@@ -1,0 +1,321 @@
+<div class="container">
+  <div class="card mt-4">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-5 p-2">
+          <input
+            type="date"
+            name="date"
+            class="form-control"
+            [formControl]="date"
+            class="form-control"
+          />
+        </div>
+        <div class="col-sm-5 p-2">
+          <select (change)="onItemChange(tm.value)" #tm class="form-control">
+            <option value="{{ sport.strSport }}" *ngFor="let sport of sports">
+              {{ sport.strSport }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-sm-2 p-2">
+          <button (click)="doSearch(date)" class="btn btn-primary">
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card mt-4" *ngFor="let game of today">
+    <div class="card-header">
+      {{ game.strLeague }}
+    </div>
+    <div class="card-content  p-3">
+      <div class="row">
+        <div class="col-8">
+          <p>{{ game.strHomeTeam }}</p>
+          <p>{{ game.strAwayTeam }}</p>
+        </div>
+
+        <div class="col-4 text-right">
+          <div
+            class="score"
+            *ngIf="game.intHomeScore != null && game.intAwayScore != null"
+          >
+            <p>{{ game.intHomeScore }}</p>
+            <p>{{ game.intAwayScore }}</p>
+          </div>
+
+          <div
+            class="non"
+            *ngIf="game.intHomeScore == null && game.intAwayScore == null"
+          >
+            <p>{{ game.strTime }}</p>
+          </div>
+        </div>
+      </div>
+      <!-- 
+      <p class="text-right text-primary">View details</p> -->
+
+      <!-- Button to Open the Modal -->
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-toggle="modal"
+        data-target="#myModal"
+        (click)="openEvent(game.idEvent)"
+      >
+        View details
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">
+          {{ events?.strLeague }}
+        </h4>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <!-- Row for the Home and Away and then the score -->
+
+        <div class="row">
+          <div class="col-8">
+            <p>
+              <b> {{ events?.strHomeTeam }}</b>
+            </p>
+            <p>
+              <b>
+                {{ events?.strAwayTeam }}
+              </b>
+            </p>
+          </div>
+
+          <div class="col-4">
+            <p class="text-center">{{ events?.intHomeScore }}</p>
+            <p class="text-center">{{ events?.intAwayScore }}</p>
+          </div>
+        </div>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs nav-justified">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#home">Lineup</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#menu1">Details</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#menu2">Table</a>
+          </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div class="tab-pane container active" id="home">
+            <div class="row mt-3 mb-3" *ngIf="homeDefence != null">
+              <div class="col-6">
+                <p class="bit">{{ events?.strHomeLineupGoalkeeper }}</p>
+                <p class="bit" *ngFor="let hDefenders of homeDefence">
+                  {{ hDefenders }}
+                </p>
+                <p class="bit" *ngFor="let hMidfielder of homeMidfield">
+                  {{ hMidfielder }}
+                </p>
+                <p class="bit" *ngFor="let hForwards of homeForward">
+                  {{ hForwards }}
+                </p>
+              </div>
+
+              <div class="col-6">
+                <p class="bit">{{ events?.strAwayLineupGoalkeeper }}</p>
+                <p class="bit" *ngFor="let aDefenders of awayDefence">
+                  {{ aDefenders }}
+                </p>
+                <p class="bit" *ngFor="let aMidfielder of awayMidfield">
+                  {{ aMidfielder }}
+                </p>
+                <p class="bit" *ngFor="let aForwards of awayForward">
+                  {{ aForwards }}
+                </p>
+              </div>
+            </div>
+
+            <p class="text-center" *ngIf="homeDefence != null">Substitutes</p>
+
+            <div class="row" *ngIf="homeDefence != null">
+              <div class="col-6">
+                <p class="bit" *ngFor="let hSubs of homeSub">
+                  {{ hSubs }}
+                </p>
+              </div>
+              <div class="col-6">
+                <p class="bit" *ngFor="let aSubs of awaySub">
+                  {{ aSubs }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane container fade" id="menu1">
+            <p class="text-center mt-3 mb-3">
+              <b>
+                Goals
+              </b>
+            </p>
+            <div class="row">
+              <div class="col-6">
+                <div class="bit" *ngFor="let hGoal of homeGoals">
+                  <p [hidden]="hGoal == ''">
+                    <img
+                      src="assets/icon/goal.png"
+                      width="16px"
+                      height="16px"
+                    />
+                    {{ hGoal }}
+                  </p>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="bit" *ngFor="let aGoal of awayGoals">
+                  <p class="disp" [hidden]="aGoal == ''">
+                    <img
+                      src="assets/icon/goal.png"
+                      width="16px"
+                      height="16px"
+                    />
+                    {{ aGoal }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <p class="text-center mb-3">
+              <b>Yellow cards</b>
+            </p>
+
+            <div class="row">
+              <div class="col-6">
+                <div class="bit" *ngFor="let yCard of homeYellowCards">
+                  <p [hidden]="yCard == ''">
+                    <img
+                      src="assets/icon/yellow.svg"
+                      width="16px"
+                      height="16px"
+                      alt=""
+                    />
+
+                    {{ yCard }}
+                  </p>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="bit" *ngFor="let aCard of awayYellowCards">
+                  <p [hidden]="aCard == ''">
+                    <img
+                      src="assets/icon/yellow.svg"
+                      width="16px"
+                      height="16px"
+                      alt=""
+                    />
+
+                    {{ aCard }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <p class="text-center mb-3">
+              <b>Red cards</b>
+            </p>
+
+            <div class="row">
+              <div class="col-6">
+                <div class="bit" *ngFor="let rCard of homeRedCards">
+                  <p [hidden]="rCard == ''">
+                    <img
+                      src="assets/icon/red.png"
+                      width="16px"
+                      height="16px"
+                      alt=""
+                    />
+
+                    {{ rCard }}
+                  </p>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="bit" *ngFor="let arCard of awayRedCards">
+                  <p [hidden]="arCard == ''">
+                    <img
+                      src="assets/icon/red.png"
+                      width="16px"
+                      height="16px"
+                      alt=""
+                    />
+
+                    {{ arCard }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane container fade" id="menu2">
+            <div class="league_table">
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>G</th>
+                      <th>W</th>
+                      <th>D</th>
+                      <th>L</th>
+                      <th>GD</th>
+                      <th>pts</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr
+                      *ngFor="let data of tables; let i = index"
+                      (click)="viewClub(data.teamid)"
+                      data-dismiss="modal"
+                    >
+                      <td>{{ i + 1 }}</td>
+                      <td>{{ data?.name }}</td>
+                      <td>{{ data?.played }}</td>
+                      <td>{{ data?.win }}</td>
+                      <td>{{ data?.draw }}</td>
+                      <td>{{ data?.loss }}</td>
+                      <td>{{ data?.goalsdifference }}</td>
+                      <td>{{ data?.total }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

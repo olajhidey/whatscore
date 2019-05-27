@@ -1,0 +1,52 @@
+/* navbar */
+.navbar-default {
+  background-color: #f095ff;
+  color: black;
+  border-color: #e7e7e7;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 480px) {
+  header nav {
+    display: none;
+  }
+
+  app-sidebar {
+    position: relative;
+    left: -200px;
+  }
+
+  .active {
+    left: 0px;
+  }
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  fill: #fff;
+}
+
+header,
+nav {
+  justify-self: right;
+}
+
+header nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+header nav ul li {
+  float: left;
+}
+
+header nav ul li a {
+  padding: 1.5em;
+  text-transform: capitalize;
+  font-size: 0.8eml;
+  color: #fff;
+}
+/* &:hover {
+  background: #7700ff;
+} */

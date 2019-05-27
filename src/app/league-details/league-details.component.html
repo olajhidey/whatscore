@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="head mt-4 mb-4">
+    <img src="{{ league?.strBadge }}" height="100px" width="100px" />
+
+    <div class="details mt-3">
+      <h3>{{ league?.strLeague }}</h3>
+      <!-- <p>{{ league?.strDescriptionEN }}</p> -->
+    </div>
+  </div>
+
+  <div class="league_table">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>G</th>
+            <th>W</th>
+            <th>D</th>
+            <th>L</th>
+            <th>GD</th>
+            <th>pts</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            *ngFor="let data of league_table; let i = index"
+            (click)="viewClub(data.teamid)"
+          >
+            <td>{{ i + 1 }}</td>
+            <td>{{ data.name }}</td>
+            <td>{{ data.played }}</td>
+            <td>{{ data.win }}</td>
+            <td>{{ data.draw }}</td>
+            <td>{{ data.loss }}</td>
+            <td>{{ data.goalsdifference }}</td>
+            <td>{{ data.total }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

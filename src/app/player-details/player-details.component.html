@@ -1,0 +1,116 @@
+<div class="container">
+  <div class="card mt-4 mb-4 head">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-4 text-center">
+          <img
+            src="{{ player_details?.strCutout }}"
+            width="75px"
+            height="75px"
+          />
+        </div>
+
+        <div class="col-8">
+          <h4>{{ player_details?.strPlayer }}</h4>
+          <p>{{ player_details?.strPosition }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      Player Details
+    </div>
+
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-6">
+          <b>Nationality</b>
+        </div>
+
+        <div class="col-6">
+          {{ player_details?.strNationality }}
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-6">
+          <b>DOB</b>
+        </div>
+
+        <div class="col-6">
+          {{ player_details?.dateBorn | date }}
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-6">
+          <b>Birth Location</b>
+        </div>
+
+        <div class="col-6">
+          {{ player_details?.strBirthLocation }}
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-6">
+          <b>Height</b>
+        </div>
+
+        <div class="col-6">
+          {{ player_details?.strHeight }}
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-6">
+          <b>Shirt Number</b>
+        </div>
+
+        <div class="col-6">
+          {{ player_details?.strNumber }}
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-6">
+          <b>Salary</b>
+        </div>
+
+        <div class="col-6">
+          {{ player_details?.strWage }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      Player Honours
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Season</th>
+              <th>Honour</th>
+              <!-- <th>Team</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let honour of honours; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ honour.strSeason }}</td>
+              <td>{{ honour.strHonour }}</td>
+              <!-- <td>{{ honour.strTeam }}</td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

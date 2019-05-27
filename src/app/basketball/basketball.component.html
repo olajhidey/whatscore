@@ -1,0 +1,7 @@
+<div class="container">
+  <div class="card mt-4 mb-4" *ngFor="let bball of basketball">
+    <div class="card-body" (click)="viewDetails(bball.idLeague)">
+      {{ bball.strLeague }}
+    </div>
+  </div>
+</div>
