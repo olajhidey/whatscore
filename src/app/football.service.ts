@@ -14,6 +14,11 @@ export class FootballService {
   formerTeams =
     "https://www.thesportsdb.com/api/v1/json/1/lookupformerteams.php";
   playerTrophy = "https://www.thesportsdb.com/api/v1/json/1/lookuphonors.php";
+  teamSearch = "https://www.thesportsdb.com/api/v1/json/1/searchteams.php";
+  h2hSearch = "https://www.thesportsdb.com/api/v1/json/1/searchevents.php";
+  seasonLink =
+    "https://www.thesportsdb.com/api/v1/json/1/search_all_seasons.php";
+  queryMatchdays = "https://www.thesportsdb.com/api/v1/json/1/eventsround.php";
 
   constructor(private http: HttpClient) {}
 
@@ -21,6 +26,40 @@ export class FootballService {
     return this.http.get(this.leagueDetails, {
       params: {
         id: id
+      }
+    });
+  }
+
+  searchTeams(query: string) {
+    return this.http.get(this.teamSearch, {
+      params: {
+        t: query
+      }
+    });
+  }
+
+  getHeadToHead(query: string) {
+    return this.http.get(this.h2hSearch, {
+      params: {
+        e: query
+      }
+    });
+  }
+
+  getAllSeasonForLeague(id: any) {
+    return this.http.get(this.seasonLink, {
+      params: {
+        id: id
+      }
+    });
+  }
+
+  getSpecificMatchdaysForLeague(id: any, round: any, season: any) {
+    return this.http.get(this.queryMatchdays, {
+      params: {
+        id: id,
+        r: round,
+        s: season
       }
     });
   }

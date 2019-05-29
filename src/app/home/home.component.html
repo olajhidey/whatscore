@@ -9,10 +9,12 @@
             class="form-control"
             [formControl]="date"
             class="form-control"
+            placeholder="Enter date"
           />
         </div>
         <div class="col-sm-5 p-2">
           <select (change)="onItemChange(tm.value)" #tm class="form-control">
+            <option selected>Select sport</option>
             <option value="{{ sport.strSport }}" *ngFor="let sport of sports">
               {{ sport.strSport }}
             </option>
@@ -108,202 +110,214 @@
           </div>
         </div>
 
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs nav-justified">
-          <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#home">Lineup</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#menu1">Details</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#menu2">Table</a>
-          </li>
-        </ul>
+        <div
+          class="body"
+          [hidden]="
+            events?.strHomeLineupDefense == '' ||
+            events?.strAwayLineupDefense == '' ||
+            events?.strHomeLineupDefense == null ||
+            events?.strAwayLineupDefense == null
+          "
+        >
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs nav-justified">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#home"
+                >Lineup</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#menu1">Details</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#menu2">Table</a>
+            </li>
+          </ul>
 
-        <!-- Tab panes -->
-        <div class="tab-content">
-          <div class="tab-pane container active" id="home">
-            <div class="row mt-3 mb-3" *ngIf="homeDefence != null">
-              <div class="col-6">
-                <p class="bit">{{ events?.strHomeLineupGoalkeeper }}</p>
-                <p class="bit" *ngFor="let hDefenders of homeDefence">
-                  {{ hDefenders }}
-                </p>
-                <p class="bit" *ngFor="let hMidfielder of homeMidfield">
-                  {{ hMidfielder }}
-                </p>
-                <p class="bit" *ngFor="let hForwards of homeForward">
-                  {{ hForwards }}
-                </p>
-              </div>
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div class="tab-pane container active" id="home">
+              <div class="row mt-3 mb-3" *ngIf="homeDefence != null">
+                <div class="col-6">
+                  <p class="bit">{{ events?.strHomeLineupGoalkeeper }}</p>
+                  <p class="bit" *ngFor="let hDefenders of homeDefence">
+                    {{ hDefenders }}
+                  </p>
+                  <p class="bit" *ngFor="let hMidfielder of homeMidfield">
+                    {{ hMidfielder }}
+                  </p>
+                  <p class="bit" *ngFor="let hForwards of homeForward">
+                    {{ hForwards }}
+                  </p>
+                </div>
 
-              <div class="col-6">
-                <p class="bit">{{ events?.strAwayLineupGoalkeeper }}</p>
-                <p class="bit" *ngFor="let aDefenders of awayDefence">
-                  {{ aDefenders }}
-                </p>
-                <p class="bit" *ngFor="let aMidfielder of awayMidfield">
-                  {{ aMidfielder }}
-                </p>
-                <p class="bit" *ngFor="let aForwards of awayForward">
-                  {{ aForwards }}
-                </p>
-              </div>
-            </div>
-
-            <p class="text-center" *ngIf="homeDefence != null">Substitutes</p>
-
-            <div class="row" *ngIf="homeDefence != null">
-              <div class="col-6">
-                <p class="bit" *ngFor="let hSubs of homeSub">
-                  {{ hSubs }}
-                </p>
-              </div>
-              <div class="col-6">
-                <p class="bit" *ngFor="let aSubs of awaySub">
-                  {{ aSubs }}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="tab-pane container fade" id="menu1">
-            <p class="text-center mt-3 mb-3">
-              <b>
-                Goals
-              </b>
-            </p>
-            <div class="row">
-              <div class="col-6">
-                <div class="bit" *ngFor="let hGoal of homeGoals">
-                  <p [hidden]="hGoal == ''">
-                    <img
-                      src="assets/icon/goal.png"
-                      width="16px"
-                      height="16px"
-                    />
-                    {{ hGoal }}
+                <div class="col-6">
+                  <p class="bit">{{ events?.strAwayLineupGoalkeeper }}</p>
+                  <p class="bit" *ngFor="let aDefenders of awayDefence">
+                    {{ aDefenders }}
+                  </p>
+                  <p class="bit" *ngFor="let aMidfielder of awayMidfield">
+                    {{ aMidfielder }}
+                  </p>
+                  <p class="bit" *ngFor="let aForwards of awayForward">
+                    {{ aForwards }}
                   </p>
                 </div>
               </div>
-              <div class="col-6">
-                <div class="bit" *ngFor="let aGoal of awayGoals">
-                  <p class="disp" [hidden]="aGoal == ''">
-                    <img
-                      src="assets/icon/goal.png"
-                      width="16px"
-                      height="16px"
-                    />
-                    {{ aGoal }}
+
+              <p class="text-center" *ngIf="homeDefence != null">Substitutes</p>
+
+              <div class="row" *ngIf="homeDefence != null">
+                <div class="col-6">
+                  <p class="bit" *ngFor="let hSubs of homeSub">
+                    {{ hSubs }}
+                  </p>
+                </div>
+                <div class="col-6">
+                  <p class="bit" *ngFor="let aSubs of awaySub">
+                    {{ aSubs }}
                   </p>
                 </div>
               </div>
             </div>
-
-            <p class="text-center mb-3">
-              <b>Yellow cards</b>
-            </p>
-
-            <div class="row">
-              <div class="col-6">
-                <div class="bit" *ngFor="let yCard of homeYellowCards">
-                  <p [hidden]="yCard == ''">
-                    <img
-                      src="assets/icon/yellow.svg"
-                      width="16px"
-                      height="16px"
-                      alt=""
-                    />
-
-                    {{ yCard }}
-                  </p>
+            <div class="tab-pane container fade" id="menu1">
+              <p class="text-center mt-3 mb-3">
+                <b>
+                  Goals
+                </b>
+              </p>
+              <div class="row">
+                <div class="col-6">
+                  <div class="bit" *ngFor="let hGoal of homeGoals">
+                    <p [hidden]="hGoal == ''">
+                      <img
+                        src="assets/icon/goal.png"
+                        width="16px"
+                        height="16px"
+                      />
+                      {{ hGoal }}
+                    </p>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="bit" *ngFor="let aGoal of awayGoals">
+                    <p class="disp" [hidden]="aGoal == ''">
+                      <img
+                        src="assets/icon/goal.png"
+                        width="16px"
+                        height="16px"
+                      />
+                      {{ aGoal }}
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div class="col-6">
-                <div class="bit" *ngFor="let aCard of awayYellowCards">
-                  <p [hidden]="aCard == ''">
-                    <img
-                      src="assets/icon/yellow.svg"
-                      width="16px"
-                      height="16px"
-                      alt=""
-                    />
 
-                    {{ aCard }}
-                  </p>
+              <p class="text-center mb-3">
+                <b>Yellow cards</b>
+              </p>
+
+              <div class="row">
+                <div class="col-6">
+                  <div class="bit" *ngFor="let yCard of homeYellowCards">
+                    <p [hidden]="yCard == ''">
+                      <img
+                        src="assets/icon/yellow.svg"
+                        width="16px"
+                        height="16px"
+                        alt=""
+                      />
+
+                      {{ yCard }}
+                    </p>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="bit" *ngFor="let aCard of awayYellowCards">
+                    <p [hidden]="aCard == ''">
+                      <img
+                        src="assets/icon/yellow.svg"
+                        width="16px"
+                        height="16px"
+                        alt=""
+                      />
+
+                      {{ aCard }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <p class="text-center mb-3">
+                <b>Red cards</b>
+              </p>
+
+              <div class="row">
+                <div class="col-6">
+                  <div class="bit" *ngFor="let rCard of homeRedCards">
+                    <p [hidden]="rCard == ''">
+                      <img
+                        src="assets/icon/red.png"
+                        width="16px"
+                        height="16px"
+                        alt=""
+                      />
+
+                      {{ rCard }}
+                    </p>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="bit" *ngFor="let arCard of awayRedCards">
+                    <p [hidden]="arCard == ''">
+                      <img
+                        src="assets/icon/red.png"
+                        width="16px"
+                        height="16px"
+                        alt=""
+                      />
+
+                      {{ arCard }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
+            <div class="tab-pane container fade" id="menu2">
+              <div class="league_table">
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>G</th>
+                        <th>W</th>
+                        <th>D</th>
+                        <th>L</th>
+                        <th>GD</th>
+                        <th>pts</th>
+                      </tr>
+                    </thead>
 
-            <p class="text-center mb-3">
-              <b>Red cards</b>
-            </p>
-
-            <div class="row">
-              <div class="col-6">
-                <div class="bit" *ngFor="let rCard of homeRedCards">
-                  <p [hidden]="rCard == ''">
-                    <img
-                      src="assets/icon/red.png"
-                      width="16px"
-                      height="16px"
-                      alt=""
-                    />
-
-                    {{ rCard }}
-                  </p>
+                    <tbody>
+                      <tr
+                        *ngFor="let data of tables; let i = index"
+                        (click)="viewClub(data.teamid)"
+                        data-dismiss="modal"
+                      >
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ data?.name }}</td>
+                        <td>{{ data?.played }}</td>
+                        <td>{{ data?.win }}</td>
+                        <td>{{ data?.draw }}</td>
+                        <td>{{ data?.loss }}</td>
+                        <td>{{ data?.goalsdifference }}</td>
+                        <td>{{ data?.total }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-              </div>
-              <div class="col-6">
-                <div class="bit" *ngFor="let arCard of awayRedCards">
-                  <p [hidden]="arCard == ''">
-                    <img
-                      src="assets/icon/red.png"
-                      width="16px"
-                      height="16px"
-                      alt=""
-                    />
-
-                    {{ arCard }}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="tab-pane container fade" id="menu2">
-            <div class="league_table">
-              <div class="table-responsive">
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Name</th>
-                      <th>G</th>
-                      <th>W</th>
-                      <th>D</th>
-                      <th>L</th>
-                      <th>GD</th>
-                      <th>pts</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <tr
-                      *ngFor="let data of tables; let i = index"
-                      (click)="viewClub(data.teamid)"
-                      data-dismiss="modal"
-                    >
-                      <td>{{ i + 1 }}</td>
-                      <td>{{ data?.name }}</td>
-                      <td>{{ data?.played }}</td>
-                      <td>{{ data?.win }}</td>
-                      <td>{{ data?.draw }}</td>
-                      <td>{{ data?.loss }}</td>
-                      <td>{{ data?.goalsdifference }}</td>
-                      <td>{{ data?.total }}</td>
-                    </tr>
-                  </tbody>
-                </table>
               </div>
             </div>
           </div>
